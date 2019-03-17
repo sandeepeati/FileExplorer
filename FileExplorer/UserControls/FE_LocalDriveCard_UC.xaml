@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="FileExplorer.UserControls.FE_LocalDriveCard_UC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FileExplorer.UserControls"
+             mc:Ignorable="d" Name="FE_LocalDrive"
+             MaxHeight="100" MaxWidth="500">
+    <StackPanel Orientation="Horizontal">
+        <Image x:Name="localDriveImg" />
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Content="{Binding Path=DriveName, ElementName=FE_LocalDrive}" />
+            <ProgressBar Height="10" Foreground="Wheat" Background="White"
+                Value="{Binding Path=UsedSpacePercent, ElementName=FE_LocalDrive}" />
+            <Label Content="{Binding Path=SpaceInfo, ElementName=FE_LocalDrive}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

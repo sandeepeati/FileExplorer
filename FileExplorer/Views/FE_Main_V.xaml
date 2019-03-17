@@ -1,0 +1,114 @@
+﻿<Window x:Class="FileExplorer.Views.FE_Main_V"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileExplorer.Views"
+        xmlns:UserControls="clr-namespace:FileExplorer.UserControls"
+        xmlns:Extended="clr-namespace:FileExplorer.Extended"
+        mc:Ignorable="d" Name="FE_Main"
+        Title="Simple Explorer" WindowState="Maximized">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="210" Width="210" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition MinWidth="200" Width="*" />
+        </Grid.ColumnDefinitions>
+
+
+        <StackPanel Grid.Column="0">
+            <Button Content="Quick access"
+                    Command="{Binding Path=ToggleQacContents}"
+                    Style="{StaticResource FE_Header_Button_Style}"
+                    Template="{DynamicResource FE_Button_CT}" />
+
+            <ItemsControl Grid.Column="0" Visibility="{Binding qacVisibility}"
+                      ItemsSource="{Binding Path=SpecialFolders}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Path=Name}"
+                            Command="{Binding Path=DataContext.SpecialFolderClick, ElementName=FE_Main}"
+                            CommandParameter="{Binding Path=Path}"
+                            Style="{StaticResource FE_Button_Style}"
+                            Template="{DynamicResource FE_Button_CT}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Button Content="This PC"
+                    Command="{Binding Path=ToggleTPcContents}"
+                    Style="{StaticResource FE_Header_Button_Style}"
+                    Template="{StaticResource FE_Button_CT}" />
+            
+            <ItemsControl Grid.Column="0" Visibility="{Binding tpcVisibility}"
+                      ItemsSource="{Binding Path=ThisPCFolders}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Path=Name}"
+                            Command="{Binding Path=DataContext.SpecialFolderClick, ElementName=FE_Main}"
+                            CommandParameter="{Binding Path=Path}"
+                            Style="{StaticResource FE_Button_Style}"
+                            Template="{DynamicResource FE_Button_CT}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+        </StackPanel>
+
+        <GridSplitter Grid.Column="1" Width="5"
+                      Background="Wheat"
+                      HorizontalAlignment="Stretch" />
+
+        <Grid Grid.Column="2" Background="Transparent">
+            <Grid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Show Hidden Files" Command="{Binding Path=ShowHiddenFiles}" />
+                </ContextMenu>
+            </Grid.ContextMenu>
+            
+            <!--shows directories and folders-->
+            <ItemsControl Grid.Column="0" Padding="10"
+                          Visibility="{Binding Path=ShowDirectories}"
+                          VerticalAlignment="Top"
+                          ItemsSource="{Binding Path=Directories}">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="10" Rows="{Binding Path=UGRows}" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <UserControls:ContentCard
+                            ContentName="{Binding Path=Name}"
+                            ContentImage="{Binding Path=FolderImage}"
+                            Extended:FE_ContentCard_Click.Click="{Binding Path=DataContext.GetDirectoryContents, ElementName=FE_Main}"
+                            Extended:FE_ContentCard_Click.CommandParameter="{Binding Path=Contents}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+            <!--shows local drives-->
+            <ItemsControl Grid.Column="0" Padding="10"
+                          Visibility="{Binding Path=ShowLocalDrives}"
+                          VerticalAlignment="Top"
+                          ItemsSource="{Binding Path=LocalDrives}">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3" Rows="{Binding Path=UGRows}" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <UserControls:FE_LocalDriveCard_UC
+                            DriveName="{Binding Path=Name}"
+                            UsedSpacePercent="{Binding Path=UsedSpacePercent}"
+                            SpaceInfo="{Binding Path=SpaceInfo}"
+                            DriveImage="{Binding Path=DriveImage}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </Grid>
+</Window>
