@@ -5,12 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FileExplorer.UserControls"
              mc:Ignorable="d" Name="FE_LocalDrive"
-             MaxHeight="100" MaxWidth="500">
+             MaxHeight="80" MinWidth="200">
     <StackPanel Orientation="Horizontal">
         <Image x:Name="localDriveImg" />
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label Content="{Binding Path=DriveName, ElementName=FE_LocalDrive}" />
-            <ProgressBar Height="10" Foreground="Wheat" Background="White"
+            <ProgressBar x:Name="spacebar" Height="10" Foreground="Wheat" Background="White"
                 Value="{Binding Path=UsedSpacePercent, ElementName=FE_LocalDrive}" />
             <Label Content="{Binding Path=SpaceInfo, ElementName=FE_LocalDrive}" />
         </StackPanel>

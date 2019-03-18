@@ -34,7 +34,18 @@ namespace FileExplorer.UserControls
 
         // Using a DependencyProperty as the backing store for DriveName.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DriveNameProperty =
-            DependencyProperty.Register("DriveName", typeof(string), typeof(FE_LocalDriveCard_UC), new PropertyMetadata(null));
+            DependencyProperty.Register("DriveName", typeof(string), typeof(FE_LocalDriveCard_UC), new PropertyMetadata(ToggleSpaceBar));
+
+        private static void ToggleSpaceBar(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            string driveName = d.GetValue(DriveNameProperty) as string;
+
+            if (!string.IsNullOrEmpty(driveName) && driveName.ToUpper().StartsWith("CD"))
+            {
+                FE_LocalDriveCard_UC uc = d as FE_LocalDriveCard_UC;
+                if (uc != null) uc.spacebar.Visibility = Visibility.Collapsed;
+            }
+        }
         
         public long UsedSpacePercent
         {
